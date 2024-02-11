@@ -2,7 +2,7 @@
 
 ### Requirements
   * Python 3.8
-  * CellProfiler
+  * CellProfiler 4
   * FIJI (FIJI Is Just ImageJ)
   * Vaa3D
   * GCut
