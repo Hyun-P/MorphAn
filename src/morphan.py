@@ -26,6 +26,32 @@ class MorphAn:
 	# Background Correction
 	############################
 
+	def vaa3d_process(self,a,b,c,
+				vaa3d_software_path,p):
+
+		os.chdir(vaa3d_software_path)
+		vaaPath = './vaa3d'
+		cmd = str(vaa + 
+			"-x " + "vn2 " + 
+			"-f " + "app2 " + 
+			"-i " + a + " " +
+			"-o " + c + " " +
+			"-p " + b + " " + 
+			      str(p['channel']) + " " + 
+			      str(p['bg_thres']) + " " + 
+			      str(p['auto_downsample']) + " " + 
+			      str(p['radius_from_2d']) + " " + 
+			      str(p['gray_distance']) + " " + 
+			      str(p['allow_gap']) + " " + 
+			      str(p['length_thres']) + " " + 
+			      str(p['allow_resample']) + " " + 
+			      str(p['brightfield']) + " " + 
+			      str(p['sr_ratio']) + " " +
+			      str(p['cnn_type']) + " " + 
+			      str(p['high_intensity'])) 
+
+		os.system(cmd)
+
 	def get_workspace(self,a,b,c):
 		pipe = cellprofiler_core.pipeline.Pipeline()
 		pipe.add_module(a)

@@ -4,14 +4,133 @@ import statistics
 import random
 import matplotlib.pyplot as plt
 from scipy import stats
+import skimage
+
+import cellprofiler.modules.correctilluminationapply
+import cellprofiler.modules.correctilluminationcalculate
+import cellprofiler_core.workspace 
+import cellprofiler_core.image
+import cellprofiler_core.object
+import cellprofiler_core.pipeline
+cellprofiler_core.preferences.set_headless()
+
 
 
 
 class MorphAn:
-
+	
 	def __init__(self):
 		return	
-	
+
+	############################
+	# Background Correction
+	############################
+
+	def vaa3d_process(self,a,b,c,
+				vaa3d_software_path,p):
+
+		os.chdir(vaa3d_software_path)
+		vaaPath = './vaa3d'
+		cmd = str(vaa + 
+			"-x " + "vn2 " + 
+			"-f " + "app2 " + 
+			"-i " + a + " " +
+			"-o " + c + " " +
+			"-p " + b + " " + 
+			      str(p['channel']) + " " + 
+			      str(p['bg_thres']) + " " + 
+			      str(p['auto_downsample']) + " " + 
+			      str(p['radius_from_2d']) + " " + 
+			      str(p['gray_distance']) + " " + 
+			      str(p['allow_gap']) + " " + 
+			      str(p['length_thres']) + " " + 
+			      str(p['allow_resample']) + " " + 
+			      str(p['brightfield']) + " " + 
+			      str(p['sr_ratio']) + " " +
+			      str(p['cnn_type']) + " " + 
+			      str(p['high_intensity'])) 
+
+		os.system(cmd)
+
+	def get_workspace(self,a,b,c):
+		pipe = cellprofiler_core.pipeline.Pipeline()
+		pipe.add_module(a)
+		object_set = cellprofiler_core.object.ObjectSet()
+		measurements = cellprofiler_core.measurement.Measurements()
+		workspace = cellprofiler_core.workspace.Workspace(
+		pipe,
+		a,
+		b,
+		object_set,
+		measurements,
+		c,
+		)
+		return workspace
+
+	def cp4_illumination_correction(self,a,b,c,d,e):
+		mod_calc = cellprofiler.modules.correctilluminationcalculate.CorrectIlluminationCalculate()
+
+		# configure the workspace
+		mod_calc.image_name.value = 'orig'
+		mod_calc.illumination_image_name.value = 'illum'
+		mod_calc.intensity_choice.value = 'Regular'
+		mod_calc.dilate_objects.value = 'No'
+		mod_calc.object_dilation_radius.value = 1
+		mod_calc.block_size.value = 60
+		mod_calc.rescale_option.value = d
+		mod_calc.each_or_all.value = 'Each'
+		mod_calc.smoothing_method.value = c
+		mod_calc.automatic_object_width.value = 'Automatic'
+		mod_calc.object_width.value = 10
+		mod_calc.size_of_smoothing_filter.value = e
+		mod_calc.save_average_image.value = 'No'
+		mod_calc.average_image_name.value = 'Avg'
+		mod_calc.save_dilated_image.value = 'No'
+		mod_calc.dilated_image_name.value = 'Dil'
+
+		img_orig = cellprofiler_core.image.Image(b)
+		image_set_list = cellprofiler_core.image.ImageSetList()
+		image_set = image_set_list.get_image_set(0)
+		image_set.add("orig", img_orig)
+
+		workspace = self.get_workspace(mod_calc,image_set,image_set_list)
+		mod_calc.run(workspace)
+
+		illum = workspace.image_set.get_image("illum")
+
+		# apply the module
+		mod_apply = cellprofiler.modules.correctilluminationapply.CorrectIlluminationApply()
+		img_orig = cellprofiler_core.image.Image(a)
+		image_set_list = cellprofiler_core.image.ImageSetList()
+		image_set = image_set_list.get_image_set(0)
+		image_set.add('orig', img_orig)
+		image_set.add('illum', illum)
+		settings = mod_apply.settings()
+		settings[0].value = 'orig'
+		settings[1].value = 'corr'
+		settings[2].value = 'illum'
+		settings[3].value = 'Divide'
+		workspace = self.get_workspace(mod_apply,image_set,image_set_list)
+		mod_apply.run(workspace)
+
+		corr = workspace.image_set.get_image("corr")
+
+		return corr, illum
+
+
+
+	def correct_background(self,a,b,c,d,e):
+		img_corrected,img_function = self.cp4_illumination_correction(a,b,c,d,e)
+		img_corrected = skimage.img_as_uint(img_corrected.pixel_data)
+		return img_corrected		
+
+
+
+
+	############################
+	# Background Generation
+	############################
+
 	def bg_wrapper(self,args):
 		return self.background_processor(*args)
 
@@ -57,6 +176,7 @@ class MorphAn:
 			new_y_data[i] = rand
 
 		new_res = new_y_data*np.max(y_data)
+		new_res = new_res.astype(np.uint16).squeeze()
 		
 		if display:
 			plot_up = upperThres * np.max(y_data)
