@@ -5,6 +5,7 @@ import random
 import matplotlib.pyplot as plt
 from scipy import stats
 import skimage
+import os
 
 import cellprofiler.modules.correctilluminationapply
 import cellprofiler.modules.correctilluminationcalculate
@@ -20,11 +21,101 @@ cellprofiler_core.preferences.set_headless()
 class MorphAn:
 	
 	def __init__(self):
+
 		return	
 
 	############################
 	# Background Correction
 	############################
+
+	def rearrange_tree(self,a):
+		return tmp
+
+	def modify_gcut(self,a):
+		return tmp
+
+	def adoption_agency(self,a):
+		return tmp
+
+	def iron_preprocess(self,a):
+		"""
+		a: data path
+		"""
+
+		tmp={}
+		fname = os.path.basename(a)
+		neuron_name = fname.split('.csv')[0]
+
+		with open(datapath, 'r') as data:
+			for i, line in enumerate(csv.reader(data)):
+				if i == 0: continue
+				path_name = int(line[0])
+				path_length = int(float(line[1]))		        
+
+				if len(line[2]) == 2:
+					children = []
+				else:
+					children = list(map(int, line[2].strip("[]").replace(" ","").split(",")))
+
+				if len(line[3]) == 2:
+					distances = []
+				else:
+					distances = line[3].strip("[]").replace(" ","").split(",")
+					distances = list(map(float, distances))
+
+				par = line[4]
+				if len(par) == 0:
+					par = None
+				else:
+					par = int(par.split(' ')[1])
+
+				tmp[path_name] = {'length':path_length, 'children':children, 'distances':distances, 'parent':par}
+
+				# rearrange the tree structure
+				tmp = self.rearrange_tree(tmp)
+
+				# gcut modification
+				tmp = self.modify_gcut(tmp)
+
+				# post gcut modification. aka adoption agency
+				tmp = self.adoption_agency(tmp)
+
+		return tmp
+
+	def siamese(self, a,b,c):
+		"""
+		a: path_dic[image]
+		b: data_dic[image]
+		c: path with an issue
+		"""
+		rootx = var3[var5]['x']
+		rooty = var3[var5]['y']
+		for k,v in var1.items():
+			x = v['x']
+			y = v['y']
+		if rootx == x and rooty == y:
+			return k
+
+	def gcut_process(self,a,b,c):
+		cmd = '%s %s %s %s' %('python3', a, b, c)
+		os.system(cmd)
+
+	def read_swc(self,a):
+		tmp = self.read_file(a)
+		tmp = [x for x in tmp if '#' not in x]
+		return tmp
+
+	def read_file(self,a):
+		f = open(a,'r')
+		tmp = f.read().splitlines()
+		f.close()
+		return tmp
+
+	def check_directory(self,a,b):
+		parent = os.path.join(a,b)
+		if not os.path.exists(parent):
+			os.mkdir(parent)
+		return parent
 
 	def vaa3d_process(self,a,b,c,
 				vaa3d_software_path,p):
