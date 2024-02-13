@@ -6,6 +6,7 @@
   * FIJI (FIJI Is Just ImageJ)
   * Vaa3D
   * GCut
+    * https://www.nature.com/articles/s41467-019-09515-0
 
 ## Background Generation
   * Notebook
