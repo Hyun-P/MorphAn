@@ -10,7 +10,7 @@
 
 ## Installation
   * conda env create -f environment.yml
-  * git clone https://
+  * git clone https://github.com/Hyun-P/MorphAn.git
   * cd MorphAn
   * git clone https://bitbucket.org/muyezhu/gcut.git
 
