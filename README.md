@@ -41,4 +41,4 @@
   * Notebook
 
 ## Post-process
-  * Statistical Analysis - Umed T. Boltaev
+  * Statistical Analysis - Dr. Umed T. Boltaev
