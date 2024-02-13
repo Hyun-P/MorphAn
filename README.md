@@ -8,6 +8,9 @@
   * GCut
     * https://www.nature.com/articles/s41467-019-09515-0
 
+## Installation
+  * conda env create -f environment.yml
+
 ## Background Generation
   * Notebook
 
