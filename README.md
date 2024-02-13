@@ -9,10 +9,10 @@
     * https://www.nature.com/articles/s41467-019-09515-0
 
 ## Installation
-  * conda env create -f environment.yml
   * git clone https://github.com/Hyun-P/MorphAn.git
   * cd MorphAn
   * git clone https://bitbucket.org/muyezhu/gcut.git
+  * conda env create -f environment.yml
 
 ## Background Generation
   * Notebook
