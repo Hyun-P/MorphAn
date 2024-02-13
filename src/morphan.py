@@ -7,6 +7,7 @@ from scipy import stats
 import skimage
 import os
 import csv
+import pandas as pd
 
 import cellprofiler.modules.correctilluminationapply
 import cellprofiler.modules.correctilluminationcalculate
@@ -29,16 +30,110 @@ class MorphAn:
 	# Background Correction
 	############################
 
-	
+	def iron_sholl(self, a):
+		intersections = []
+		lengths = []
+
+		for i,r in enumerate(a):
+			intersection = np.count_nonzero(r)
+			intersections.append(intersection)
+			lengths.append(i)
+
+		df = pd.DataFrame({'Intersection':intersections, 'Length':lengths})
+
+		return df
+
+	def reconstruct_neuron(self, v):
+		used = []
+		cix = 0
+		blank = np.zeros((v[list(v.keys())[0]]['length'] + 10,len(v) * 2 + 2))
+
+		for kk,vv in v.items():
+			if kk in used: continue
+
+			length = vv['length']
+			children = vv['children']
+			soma = vv['soma']
+			a,cix,used = self.checkchildren(blank,v,kk,children,used,cix,2)
+		
+		return a
+
+	def drawaline(self, aa,ll,ss,cc,val):
+		aa[ss : ss+ll , cc] = val
+		return aa
+
+	def checkchildren(self, a,d,s,c,u,cx,i):
+		ii = i+4
+		cx = cx + 2
+
+		sl = int(float(d[s]['length']))
+		ss = int(float(d[s]['soma']))
+		a = self.drawaline(a,sl,ss,cx,s)
+		#print(' '*ii, s, sl, ss, cx)
+		if c:
+			#nc = sorted(c, reverse=False)
+			nc = [x for _, x in sorted(zip(d[s]['distances'],c), reverse=True)]
+			for cc in nc:
+				if cc in u: continue
+				#print(' '*ii,cc, d[cc])
+				ccc = d[cc]['children']
+
+				u.append(cc)
+				a,cx,u = self.checkchildren(a,d,cc,ccc,u,cx,ii)
+
+		return a,cx,u
+
+	def gdfs(self, v,c,p,l=0):
+		pda = v[p]
+		ti = pda['children'].index(c)
+		pl = v[p]['distances'][ti] + l
+		gp = v[p]['parent']
+		if gp:
+			return self.gdfs(v,p,gp,pl)
+		else:
+			return pl
 
 	def rearrange_tree(self,a):
-		return tmp
 
-	def modify_gcut(self,a):
-		return tmp
+		for kk,vv in a.items():
+			parent = vv['parent']
+			if parent:
+				pl = self.gdfs(a,kk,parent)
+			else:
+				pl = 0
+			a[kk]['soma'] = pl
+		
+		return a
 
 	def adoption_agency(self,a):
-		return tmp
+
+		for k,v in a.items():
+			todelete = []
+			try:
+				for kk,vv in v.items():
+					children = vv['children']
+					parent = vv['parent']
+					length = vv['length']
+					soma = vv['soma']
+					if length == 0:
+						if kk == 1:continue
+						for child in children:
+						    print('Parent %s adopts child %s from %s'%(parent, child, kk))
+						    a[k][child]['parent'] = parent
+
+						    a[k][parent]['children'].append(child)
+						    a[k][parent]['distances'].append(soma)
+						    inddel = v[parent]['children'].index(kk)
+						    v[parent]['distances'].pop(inddel)
+						    v[parent]['children'].pop(inddel)
+
+						    todelete.append(kk)
+
+				for td in todelete:
+				    v.pop(td)
+			except:
+				print(k)
+		return a
 
 	def iron_preprocess(self,a):
 		"""
@@ -76,12 +171,6 @@ class MorphAn:
 
 				# rearrange the tree structure
 				tmp = self.rearrange_tree(tmp)
-
-				# gcut modification
-				tmp = self.modify_gcut(tmp)
-
-				# post gcut modification. aka adoption agency
-				tmp = self.adoption_agency(tmp)
 
 		return tmp
 
