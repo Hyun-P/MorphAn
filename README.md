@@ -10,6 +10,9 @@
 
 ## Installation
   * conda env create -f environment.yml
+  * git clone https://
+  * cd MorphAn
+  * git clone https://bitbucket.org/muyezhu/gcut.git
 
 ## Background Generation
   * Notebook
