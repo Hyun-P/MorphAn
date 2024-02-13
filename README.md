@@ -25,9 +25,6 @@
   * Fiji Macro
   * Notebook
 
-## Neuron Matching
-  * Too specific to generallize maybe
-
 ## WEKA
   * Fiji Weka
 
@@ -44,4 +41,4 @@
   * Notebook
 
 ## Post-process
-  * Statistical Analysis
+  * Statistical Analysis - Umed T. Boltaev
