@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from scipy import stats
 import skimage
 import os
+import csv
 
 import cellprofiler.modules.correctilluminationapply
 import cellprofiler.modules.correctilluminationcalculate
@@ -28,6 +29,8 @@ class MorphAn:
 	# Background Correction
 	############################
 
+	
+
 	def rearrange_tree(self,a):
 		return tmp
 
@@ -46,7 +49,7 @@ class MorphAn:
 		fname = os.path.basename(a)
 		neuron_name = fname.split('.csv')[0]
 
-		with open(datapath, 'r') as data:
+		with open(a, 'r') as data:
 			for i, line in enumerate(csv.reader(data)):
 				if i == 0: continue
 				path_name = int(line[0])
@@ -121,8 +124,8 @@ class MorphAn:
 				vaa3d_software_path,p):
 
 		os.chdir(vaa3d_software_path)
-		vaaPath = './vaa3d'
-		cmd = str(vaa + 
+		vaaPath = './vaa3d '
+		cmd = str(vaaPath + 
 			"-x " + "vn2 " + 
 			"-f " + "app2 " + 
 			"-i " + a + " " +

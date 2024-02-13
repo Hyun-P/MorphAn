@@ -1,0 +1,3 @@
+1 microdish_ctx_20x_DIV7_plateA_N2_1
+2 microdish_ctx_20x_DIV7_plateA_O1_1
+3 microdish_ctx_20x_DIV7_plateA_P3_1
