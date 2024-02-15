@@ -21,8 +21,10 @@ To determine the parameters, open a representative image from a dataset.
 Aassess histograms of rows and determine which row would best represent the given image.
 The best representing row would be where the variations between foreground and background are large.
 
-For example, in the below image, I would choose the row that crosses the soma of a neuron because soma's high intensity would greatly skew the nonlinear fit when it calculates.
+For example, in the below image, I would choose the row that crosses the soma of a neuron (highlighted in mint green) because soma's high intensity would greatly skew the nonlinear fit when it calculates.
+
 ![microdish_ctx_20x_DIV7_plateA_P3_1---with_overlay_for_bg_gen](https://github.com/Hyun-P/MorphAn/assets/114594534/30cd46bf-d120-4110-8e4e-3d714cb63631)
+
 Note the index of the chosen row, and use that in the code to assess how the nonlinear fit model becomes close to the actual background.
 
 ## Background Correction
