@@ -16,6 +16,8 @@
 
 ## Background Generation
   * Notebook
+![microdish_ctx_20x_DIV7_plateA_P3_1---with_overlay_for_bg_gen](https://github.com/Hyun-P/MorphAn/assets/114594534/9ddc9cfd-f192-46b2-b6d6-4b09a35a958a)
+
 
 ## Background Correction
   * Notebook
