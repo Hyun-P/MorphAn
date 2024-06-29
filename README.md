@@ -19,10 +19,10 @@
 ~/{dataset}
     | orig/ # original raw images
         | image1.tif # an example image
-    | images_background/ # background images
-    | images_background_corrected/ # background corrected images
-    | weka/ # weka generated binary images
-    | vaa3d/
+    | images_background/ # background images generated from generate_background.ipynb
+    | images_background_corrected/ # background corrected images generated from correct_background.ipynb
+    | weka/ # weka generated binary images from Fiji Weka plugin
+    | vaa3d/ # soma_identification.ipynb file prepares images and soma positions in this directory and vaa3d.ipynb generates .swc files into ~/gcut/ directory
         | image1/
             | image1.tif # weka image flipped for vaa3d
             | image1.tif_ini.swc # ignore
@@ -30,14 +30,14 @@
             | image1_each_1.swc # vaa3d output for a possible neuron1 
             | image1_each_2.txt # another soma position with index 2
             | image1_each_2.swc # vaa3d output for a possible neuron2 
-    | gcut/
+    | gcut/ # gcut.ipynb separates and filters the swc files into ~/trace/ directory
         | image1/
             | image1_each1/
                 | image1_each_1_soma=1.swc
                 | image1_each_1_soma=2.swc
             | image1_each_1.swc # vaa3d output for a possible neuron 1
             | image1_each_1_soma_ind_fixed.txt # two or more cell bodies' positions in x and y                
-    | trace/
+    | trace/ # Fiji macro pre_straightening.py processes files in this directory
     | swc_paths_data/
     | tree_data/
     | ROI_to_be_straightened/
@@ -92,8 +92,8 @@ This notebook uses GCut algorithm that you cloned during the installation step.
 Ensure that you clone GCut inside the MorphAn directory.
 
 ## Straightening
-Use the prepared macro in FIJI to first extract necessary information from the tracing files in .swc format in /trace folder.
-Then, Straightening notebook can be used to further process the extracted data from the macro to generate a reconstructed image of the neuron and its rectified sholl analysis data.
+1. Use the prepared macro in FIJI to first extract necessary information from the tracing files in .swc format in /trace folder.
+2. Then, Straightening notebook can be used to further process the extracted data from the macro to generate a reconstructed image of the neuron and its rectified sholl analysis data.
 
 ## Post-process
   * Statistical Analysis - Dr. Umed T. Boltaev
