@@ -49,7 +49,16 @@
 ```
 
 ## HOW_TO
-  * conda activate morphan
+1. create a dataset directory with a name such as "EXP_1"
+2. create a directory "orig" and prepares raw images in .tif format and place them into the directory
+3. run background_generation.ipynb with the paths specified for images_dir= '~/EXP_1/orig' and output_dir='~/EXP_1/images_background'
+4. run background_correction.ipynb with paths specified for images_dir, background_dir, and output_dir
+5. manually idenfity soma positions using FIJI and run soma_identification.ipynb with the paths specified inside the notebook
+6. Segment the background corrected images using FIJI's Weka plugin and place them in ~/weka directory
+7. run vaa3d.ipynb
+8. run gcut.ipynb
+9. run pre_straightening.py in Fiji macro with ~/trace file selected
+10. run straightening.ipynb for the final analysis
 
 ## Background Generation
 Background generation algorithm is a multiprocessing algorihtm that uses a iterative process of calculating nonlinear fit models.
