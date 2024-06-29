@@ -48,7 +48,7 @@
     | Log.txt       
 ```
 
-## HOW_TO
+## TL;DR
 ($conda activate morphan)
 1. create a dataset directory with a name such as "EXP_1"
 2. create a directory "orig" and prepares raw images in .tif format and place them into the directory
