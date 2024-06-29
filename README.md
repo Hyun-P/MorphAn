@@ -46,7 +46,8 @@
     | sholl.csv
     | Results.csv
     | Log.txt       
-```bash
+```
+
 ## HOW_TO
   * conda activate morphan
 
