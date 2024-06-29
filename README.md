@@ -27,17 +27,21 @@
             | image1.tif # weka image flipped for vaa3d
             | image1.tif_ini.swc # ignore
             | image1_each_1.txt # soma position with index 1
-            | image1_each_1.swc # vaa3d output for a possible neuron1 
+            | image1_each_1.swc # vaa3d output for a possible neuron 1 
             | image1_each_2.txt # another soma position with index 2
-            | image1_each_2.swc # vaa3d output for a possible neuron2 
+            | image1_each_2.swc # vaa3d output for a possible neuron 2 
     | gcut/ # gcut.ipynb separates and filters the swc files into ~/trace/ directory
         | image1/
             | image1_each1/
-                | image1_each_1_soma=1.swc
-                | image1_each_1_soma=2.swc
+                | image1_each_1_soma=1.swc # cell bodies separated from the possible neuron 1
+                | image1_each_1_soma=2.swc # cell bodies separated from the possible neuron 1
             | image1_each_1.swc # vaa3d output for a possible neuron 1
             | image1_each_1_soma_ind_fixed.txt # two or more cell bodies' positions in x and y                
     | trace/ # Fiji macro pre_straightening.py processes files in this directory
+        | image1/
+            | image1_each_1_soma=1.swc
+            | image1_each_1_soma=2.swc
+            | image1_each_2.swc # not needed to be separated in gcut
     | swc_paths_data/
     | tree_data/
     | ROI_to_be_straightened/
@@ -48,8 +52,18 @@
     | Log.txt       
 ```
 
-## HOW_TO
-  * conda activate morphan
+## TL;DR
+($conda activate morphan)
+1. create a dataset directory with a name such as "EXP_1"
+2. create a directory "orig" and prepares raw images in .tif format and place them into the directory
+3. run background_generation.ipynb with the paths specified for images_dir=EXP_1/orig and output_dir=EXP_1/images_background
+4. run background_correction.ipynb with paths specified for images_dir, background_dir, and output_dir
+5. manually idenfity soma positions using FIJI and run soma_identification.ipynb with the paths specified inside the notebook
+6. Segment the background corrected images using FIJI's Weka plugin and place them in ~/weka directory
+7. run vaa3d.ipynb
+8. run gcut.ipynb
+9. run pre_straightening.py in Fiji macro with ~/trace file selected
+10. run straightening.ipynb for the final analysis
 
 ## Background Generation
 Background generation algorithm is a multiprocessing algorihtm that uses a iterative process of calculating nonlinear fit models.
