@@ -46,7 +46,11 @@ class MorphAn:
 	def reconstruct_neuron(self, v):
 		used = []
 		cix = 0
-		blank = np.zeros((v[list(v.keys())[0]]['length'] + 10,len(v) * 2 + 2))
+		# initializing key
+		temp = "length"
+		# using item() to extract key value pair as whole
+		res = [val[temp] for key, val in v.items() if temp in val]     
+		blank = np.zeros((max(res) + 10,len(v) * 2 + 2))
 
 		for kk,vv in v.items():
 			if kk in used: continue
@@ -54,9 +58,9 @@ class MorphAn:
 			length = vv['length']
 			children = vv['children']
 			soma = vv['soma']
-			a,cix,used = self.checkchildren(blank,v,kk,children,used,cix,2)
+			blank,cix,used = self.checkchildren(blank,v,kk,children,used,cix,2)
 		
-		return a
+		return blank
 
 	def drawaline(self, aa,ll,ss,cc,val):
 		aa[ss : ss+ll , cc] = val
