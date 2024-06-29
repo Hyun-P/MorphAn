@@ -27,17 +27,21 @@
             | image1.tif # weka image flipped for vaa3d
             | image1.tif_ini.swc # ignore
             | image1_each_1.txt # soma position with index 1
-            | image1_each_1.swc # vaa3d output for a possible neuron1 
+            | image1_each_1.swc # vaa3d output for a possible neuron 1 
             | image1_each_2.txt # another soma position with index 2
-            | image1_each_2.swc # vaa3d output for a possible neuron2 
+            | image1_each_2.swc # vaa3d output for a possible neuron 2 
     | gcut/ # gcut.ipynb separates and filters the swc files into ~/trace/ directory
         | image1/
             | image1_each1/
-                | image1_each_1_soma=1.swc
-                | image1_each_1_soma=2.swc
+                | image1_each_1_soma=1.swc # cell bodies separated from the possible neuron 1
+                | image1_each_1_soma=2.swc # cell bodies separated from the possible neuron 1
             | image1_each_1.swc # vaa3d output for a possible neuron 1
             | image1_each_1_soma_ind_fixed.txt # two or more cell bodies' positions in x and y                
     | trace/ # Fiji macro pre_straightening.py processes files in this directory
+        | image1/
+            | image1_each_1_soma=1.swc
+            | image1_each_1_soma=2.swc
+            | image1_each_2.swc # not needed to be separated in gcut
     | swc_paths_data/
     | tree_data/
     | ROI_to_be_straightened/
