@@ -1,4 +1,4 @@
-name: cp4
+name: morphan
 channels:
   - plotly
   - conda-forge
@@ -459,4 +459,4 @@ dependencies:
     - zope-event==4.5.0
     - zope-interface==5.4.0
     - zstandard==0.18.0
-prefix: /home/Hyun/.conda/envs/cp4
+prefix: /home/Hyun/.conda/envs/morphan

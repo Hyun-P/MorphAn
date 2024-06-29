@@ -46,6 +46,9 @@
     | Results.csv
     | Log.txt       
 
+## HOW_TO
+  * conda activate morphan
+
 ## Background Generation
 Background generation algorithm is a multiprocessing algorihtm that uses a iterative process of calculating nonlinear fit models.
 The algorithm uses a set of predetermined parameters that are used in controlling acceptable/unacceptable pixel values from the calculated nonlinear fit.
