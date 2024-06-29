@@ -49,6 +49,7 @@
 ```
 
 ## HOW_TO
+($conda activate morphan)
 1. create a dataset directory with a name such as "EXP_1"
 2. create a directory "orig" and prepares raw images in .tif format and place them into the directory
 3. run background_generation.ipynb with the paths specified for images_dir= '~/EXP_1/orig' and output_dir='~/EXP_1/images_background'
