@@ -15,6 +15,7 @@
   * conda env create -f environment.yml
 
 ## Folder Structure
+```bash
 ~/{dataset}
     | orig/ # original raw images
         | image1.tif # an example image
@@ -45,7 +46,7 @@
     | sholl.csv
     | Results.csv
     | Log.txt       
-
+```bash
 ## HOW_TO
   * conda activate morphan
 
